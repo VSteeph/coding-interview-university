@@ -4,7 +4,7 @@
 > *Best of luck to you!*
 
 <details>
-<summary>Translations:</summary>
+<summary>Resources:</summary>
 Not updated
 - [Books](resources/book.md)
 - [Video](resources/video.md)
@@ -26,7 +26,7 @@ Secondary language will be :
 Move everything from google Drive & Slite to github, alternate between exercices, reading and learning
 
 Learning :
-- [ ] [C# Player guide](#)
+- [X] [C# Player guide](#)
 - [ ] [Pro C# 8](https://www.amazon.com/Pro-NET-Core-Foundational-Programming/dp/1484257553)
 - [ ] [Code complete](https://www.amazon.com/Code-Complete-Practical-Handbook-Construction/dp/0735619670)
 - [ ] [design Pattern](https://www.amazon.com/dp/0201633612/)

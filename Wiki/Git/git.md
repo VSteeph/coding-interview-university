@@ -26,8 +26,8 @@ git commit --amend (ajoute les fichiers staged avec le dernier commit)
 
 -- permet de préciser une liste de fichier apres une commande
 
-^ signifie le parent, ^^ signifie 2 parents en avant mais cela peut aussi être traduit par ~X où X est le nombre de parent.
-git rev-parse "HEAD^^^" est equivalent à git rev-parse HEAD~3
+^ signifie le parent, ^^ signifie 2 parents en avant mais cela peut aussi être traduit par `~`X où X est le nombre de parent.
+git rev-parse "HEAD^^^" est equivalent à git rev-parse HEAD`~`3
 
 
 ## Git Merge

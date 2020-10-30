@@ -6,10 +6,10 @@
     - [Debugging](Good-Practice/Debugging.md)
 - Programming Language
     - C#
-        - [General](Programming-Language/C#/general.md)
-        - [Features](Programming-Language/C#/features.md)
-        - [Threading](Programming-Language/C#/threading.md)
-        - [Memory & Unsafe](Programming-Language/C#/memory.md)
+        - [General](Programming-Language/Csharp/general.md)
+        - [Features](Programming-Language/Csharp/features.md)
+        - [Threading](Programming-Language/Csharp/threading.md)
+        - [Memory & Unsafe](Programming-Language/Csharp/memory.md)
 - Informatique
     - [definition](Informatique/definition.md)
 - Computer

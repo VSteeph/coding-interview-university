@@ -1,5 +1,11 @@
 # Les basiques d'un ordinateur
 
+## Basique
+1 bits = 0 ou 1
+1 byte = 8 bits
+hexadecimal = binary sur une base 15 (1 à F)
+Binary, les 0 à gauche valent 0
+
 ## Comment le CPU execute un programe (Fetch-Decode-Execute Cycle)
 En partant d'une ligne :
 INC A (assembly) signifie incrémenter le registre A (c'est à dire ajouter 1 à A, peu importe ce qui est dedans). Cela prend la forme de :
@@ -7,6 +13,8 @@ INC A (assembly) signifie incrémenter le registre A (c'est à dire ajouter 1 à
 Le binaire est souvent traduit en hexadecimal pour que ça soit plus simple à retenir, cela correspond donc à 3C
 
 INC A = 00111100 = 3C
+
+L'hexadecimal va de 0 à 15 (1-9 + A-F), ce qui signifie qu'il peut représenter une plage de 4bits (3 = 0011 & C = 1100), donc 3C = 1 byte
 
 Voici, un schéma simplifié du systeme d'un microprocesseur :
 ![CPU-Schema](img/schema-cpu.png)

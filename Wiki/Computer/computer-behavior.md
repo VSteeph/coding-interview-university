@@ -84,7 +84,38 @@ Cela peut paraître beaucoup mais les chiffres dans notre société prennent une
 
 La nécessite venait surtout du fait qu'un ordinateur moderne a des trillions de bytes et qu'il fallait pouvoir stocker les adresses pour les identifier.
 
-## Comment le CPU execute un programe (Fetch-Decode-Execute Cycle)
+## CPU
+
+### Organisation d'un CPU
+
+Un processeur a plusieurs registres pour stocker des variables temporaires (A,B,C,D), de la mémoire et une table d'instruction comme LOADA, LoadB, StoraeB, Add.
+
+Le 4 premiers bits sont le type d'opération et les 4 autres sont pour l'emplacement de la donnée, ce qui nous donne une instruction de 8bits.
+Il faut savoir à quel instructions le CPU est donc il faut aussi ajouter un instruction Adress Register pour avoir l'adresse de l'instruction actuelle (et on peut incrémenter à partir de la) et un registre pour savoir quelle instruction est entrain d'être executé L'instruction Register
+
+ ![CPUSetUp](img/CPUSetUp.png)
+
+ Organisation lors de l'execution d'une instruction. Le CPU recupere l'instruction à l'adresse de l'instruction Adress Register. L'instruction est 0010 1100 (je la sépare pour avoir les 4bits séparés), c'est celle à l'emplacement 0 de la RAM car on commence le programme.
+
+ ![CPUInstrucSchema](img/CPUInstrucSchema.png)
+
+ Dans cet exemple, l'instruction est de lire la mémoire à l'emplacement des 4 derniers bits (1100 ou 14) et de le load dans le registre A (instruction 0010). Une fois que c'est bon, on incremente l'adresse register par 1 et on recommence le cycle Fetch-Decode-Execute (détaillé ci-dessous)
+
+ A noter que certaines instructions, comme ADD ont une organisation différente car elles ajoutent 2 registres entre eux, et avec 4 registres, on a besoin que de 2 bits pour symboliser l'information, les 2 premiers bits sont pour le premier registre et les 2 suivants pour le second registre (ex : 0100 correspond au registre B et A).
+
+ A ce moment la, les 2 valeurs sont recuperés et envoyer à l'ALU avec l'operation Code (dans ce cas la, l'addition) qui s'occupe de faire le calcul et renvoie l'output au Control Unit.
+ A ce moment la, le Control Unit stock le résultat dans un registre temporaire, desactive l'ALU et peut enfin stocker le résultat dans le registre voulu (2nd, dans ce cas la, registre A)).
+
+ Evidememnt, il est possible d'enregistrer une variable à une adresse spécifique de la RAM, cela fonctionne de la même manière que pour un registre. Le CPU active le write enable pour la RAM au lieu du registre.
+
+ Le passage d'une instruction à une autre est fait avec une horloge (métronome) qui va s'occuper de la fréquence. Il faut qu'elle respecte le temps de l'electricité pour que l'instructions est le temps de finir (c'est la fréquence des CPU, Clock Speed). c'est mesuré en Hertz. Un hertz = 1 cycle par secondes.
+
+  ![FirstCPUarchi](img/FirstCPUarchi.png)
+  C'est le premier CPU intel 4004. Il avait une clock speed de 740khz, soit 740 000 instructions à la secondes.  1mhz (mega heart) correspond à 1 millions de cycles à a secondes et 1ghz correspond à 1 milliards de cycle à la seconde.
+
+  Il est possible d'overclock (pousser un peu le CPU) ou même d'underclock pour économiser de l'electricité. Le fait de manipuler la fréquence basé sur l'a demande s'appelle la Dynamic Frequency Scaling.
+
+### Comment le CPU execute un programe (Fetch-Decode-Execute Cycle)
 En partant d'une ligne :
 INC A (assembly) signifie incrémenter le registre A (c'est à dire ajouter 1 à A, peu importe ce qui est dedans). Cela prend la forme de :
 00111100 en machine code (binaire).
@@ -121,6 +152,31 @@ On commence donc le décodage de l'instruction. Le decoder détermine donc ce qu
 
 La nouvelle valeur est envoyé dans le registre A via l'internal Data Bus, ce qui conclut l'execute dans le fetch-decode-execute cycle.
 
+L'ensemble de ce systeme est geré par le CU (Control Unit) qui s'occupe d'organiser tous les éléments d'un CPU.
+
+
+### Advanced CPU
+A l'heure actuelle, les ALU sont beaucoup plus sophistiqués et beaucoup plus complexe. Ils peuvent faire des multiplications, et des divisions ce qui les rend plus gros aussi. C'est un échange pour gagner de la vitesse. C'est pour cela que les PC ont maintenant des circuits dédiés aux opérations graphiques, décodé des vidéo et encrypter des fichiers.
+
+Cela permet d'économiser beaucoup d'opérations au CPU avec les instructions standards grâce à des circuits spécialisés. Pour garder la compatibilité, les instructions ont été ajoutées et ajoutées mais jamais enlever.
+
+Augmenter la clock speed et toutes les instructions a mené à un autre probleme : Entrer et sortir les données du CPU suffisament vite, ce qui est la RAM qui est un module de mémoire en dehors du CPU. Les 2 sont connectés par un set de cable de données (BUS). Ces BUS sont petits et l'electricité va très vite mais quand il y a 1 milliards d'opérations à la seconde, le moindre délai est un problème. Sans compter le fait que la RAM doit trouver l'adresse, recupérer la donnée et se configurer pour l'output. Un LOAD from Ram prend pluiseurs, voir dizaines de clock speed. Le processeur est iddle à ce moment la.
+
+Pour régler ce problème, le CPU a une petite RAM appelé le cache (en général, kb ou mb au lieu de gb, donc beaucoup plus petit). Cela accelere le processus car la RAM utilise l'entierté du BUS et envoie un ensemble de donnée plutôt qu'une seul valeur, cela ne prend que peu de temps en plus par rapport à une seule valeur. Cet ensemble est mis en cache et est executé par le processeur en attendant que la nouvel ensemble de donnée arrive.
+
+Le cache est situé sur le processur, donc cela permet de limiter le trajet au minimum et donc match la fréquence du CPU. Si le CPU demande une valeur et qu'il a dans le cache, ça s'appelle un cache Hit et si elle n'est pas dans le cache, c'est un cache miss.
+
+Le cache peut aussi être utilisé pour stocker des valeurs temporaires quand elles sont utilisées longtemps ou lors de long calcul. Les données qui sont modifiées dans le cache sont flagged comme "Dirty Bit" et lorsque le processeur demande d'autres données, les valeurs sont renvoyés à la RAM pour ré-écrire les données et resynchorniser l'ensemble.
+
+Pour optimiser encore plus le CPU, le Fetch-Decode-Cycle est enchainé, car chaque cycle utilise des parties différentes du CPU. Quand une instruction est executé, une nouvelle est entrain d'être décodé, donc le CPU execute 3 instructions à la fois. Ils peuvent gérer les data dependencies et ralentissent certaines instructions pour pouvoir manipuler la nouvelle donnée et pas l'ancienne. Par exemple, instruction 1 recupere une donnée 2, instruction 2 l'incremente et instruction 3 la store. Si on ne ralentit pas l'instruction 3, il va mettre en mémoire la valeur de la donnée avant que l'instruction 2 soit executé (donc la mauvaise valeur) et va stocker l'ancienne valeur.
+
+Les CPU modernes peuvent ré-organiser les instructions dynamiquement avec les dependences pour éviter les ralentissement et garder le pipine actif (out of order execution).
+
+Cela pose aussi un probleme pour tous les instructions à base de condition comme les Jump car le CPU doit executer cette instruction pour savoir s'il doit jump ou non. Les CPU modernes estiment qu'elle est l'outcome la plus probable et commence à mettre en pipelines les instructions : Speculative execution. Si le CPU a raison, il n'y a aucun délai. Si le CPU a tort, il vide le pipeline (pipeline flush) et recommence. A l'heure actuelle, les CPU ont plus de 90% de précision pour les guess.
+
+L'optimisation de CPU se fait aussi en multipliant les parts du CPU. Par exemple, un CPU qui a plusieurs ALU peut faire plusieurs instructions d'ALU en même temps au lieu d'une seule, cela permet de tirer le plus de chaque cycle.
+
+Enfin, il y a les cores de CPU qui permet de procéder encore plus d'instructions et grâce au cache qui est commun, cela permet de faire d'aller beaucoup plus vite dans les instructions d'une seule tache.
 
 ## Comment un ordinateur Calcule? (ALU)
 
@@ -258,3 +314,22 @@ Plus d'informations dans la partie hardware pour l'illustration sur une vrai RAM
 
 ### SRAM (Static random-Access Memory)
 Ce type de mémoire utilise des latch aussi
+
+
+## Programmes
+
+Un programme a plusieurs instructions (opcode):
+- Load A / Load B (Load une valeur de ram dans A ou B)
+- Store A (Store value in A dans un registre)
+- Add / sub (2 registres et store dans le second registre)
+- Jump (saute à la prochaine instructions)
+- Neg Jump (saute à la prochaine instruction si le result de l'ALu trigger le Negative flag)
+- Halt dit au programme de s'arrêter
+
+Si le programme reçoit en instructions un code qui ne correspond à aucune des instructions qu'il connait il crash, c'est pour cela qu'il est important de mettre un halt au programme et cela permet aussi des séparer les instructions, de la mémoire.
+
+Les ordinateurs modernes ont plus d'instructions comme Jump if equal/ jump if greater. 4bits d'opération permettent d'avoir uniquement 16 opérations, c'est pour ça que les CPU modernes ont des approches différentes.
+
+Ils utilisent déjà plus de bits (32/64) donc une plus grande instruction length. En plus, ils utilisent des instructions à taille variables. Par exemple, si les opcodes sont de 8bits, quand le CPU voit une instruction qui n'a pas besoin de valeur supplémentaire comme Halt, il l'execute automatiquement. A l'inverse, s'il voit une instruction qui a besoin de plus de donnée, il va aller chercher la suite des informations (qui sont sauvergardés directement apres l'instruction dans la mémoire), c'est l'immediate value. Cela permet d'avoir des instructions de bits variables.
+
+Le premier processeur (INTEL 4004) avait 46 opérations, ceux actuels ont des milliers d'opérations possibles

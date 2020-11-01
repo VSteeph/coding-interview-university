@@ -446,3 +446,141 @@ End:
 ```
 
 De preference, c'est mieux de pas les utiliser ou de se limiter à ce rare cas et ne pas les multiplier.
+
+## Generic Covariance and Contravariance
+
+Lors de l'héritage, on peut mettre la classe dérivé en tant que classe parent. Cela s'explique car le dervié est aussi la version de base. Un carré est un rectangle.
+```
+public class GameObject
+{
+}
+
+public class Ship : GameObject
+{
+}
+
+GameObject newObject = new Ship();
+```
+
+Il est important de noter que cela a des limites, par exemple dans les list. Exemple :
+```
+List<GameObject> objects = new List<Ship>();
+objects.Add(new Asteroid());
+```
+
+Cela poserait des problemes car on aurait une liste de Ship avec des asteroides.
+
+En C#, on contrôle le transfert de hierarchie vers un type generic qui l'utilise. Cette regle qui contrôle si et comment la relation est appliqué s'appelle la variance
+
+Pour définir un generic type, on peut mettre plusieurs parametres
+```
+public interface IGeneric<T1,T2>
+```
+
+Le premier parametre est l'invariance, et c'est par défaut. Cela signifie que l'héritage est completement ignoré.
+
+Le second est la covariance, cela signifie que l'héritage est conservé.
+```
+Covariant<GameObject> thing = new Covariant<Ship>();
+```
+Cele sert uniquement à servir de return values pour des méthodes. Cela ne peut pas servir d'input car c'est prône à l'erreur. C'est pour cela que le .Add d'une liste ne fonctionne pas, car cela prend un input.
+
+Par contre, IEnumerable<T> est covariant qui permet d'iterer sur une collection.
+
+La derniere option est la Contravariance, elle invere l'héritage.
+```
+Contravariant<Ship> thing = new Contravariant<GameObject>();
+```
+
+Plus d'information sur C# Player guide p290
+
+## Advanced NameSpaces
+Il est possible d'avoir des situations amibuges, souvent liés à une mauvaise appelation. Par exemple, avoir un NameSpace System.Console et une classe Systeme qui a une methode console.
+
+Lorsque c'est pas possible à éviter (Librairies externes ou autres), il est possible de créer des global keywoard avec l'operator (::) comme :
+```
+global::System.Console.WriteLine("thingy");
+```
+
+le global:: signifie que le compiler doit chercher des namespaces ou types names en haut du systeme.
+
+Il est aussi possible de créer des alias sur des DLL. Quand il est nécessaire d'avoir 2 versions différentes d'une DLL (à éviter aussi)
+
+1. Solution Explorer > Project > References Elements > Assembly à donner alias
+2. Clique droit > Proprietés
+3. Changez le champ Aliases de Global à autre chose.
+
+Pour utiliser cet alias, il faut le préciser en haut du fichier (avant les directives et les namespaces)
+```
+extern alias MyAlias;
+```
+
+Suite à cela, on peut acceder aux éléments comme Cela
+```
+MyAlias::NameSpace.class
+```
+
+## Checked & Unchecked Context
+
+```
+int x = int.MaxValue;
+x++;
+Console.WriteLine(x);
+```
+
+Par défaut, cela est supposé créer une erreur overflow. La plupart des scénarios ne créeront pas d'overflow et vont simplement transformer la variable dans un type de data plus grand (long au lieu de int par exemple). Dans certain cas, ils vont juste être wrap around (donc passer de max au min), ce qui peut poser de gros problemes dans certain scas.
+
+Cela se produit car C# execute son code dans un contexte unchecked. Cela signifie que le runtime ne se soucie pas des overflow, il ne les vérifie pas. Il permet aux bits d'être reinterpretés et de trunc la valeur.
+
+Il est possible de forcer un contexte check avec le block checked
+```
+int x = int.MaxValue
+checked {
+  x++;
+}
+Console.WriteLine(x);
+```
+
+Cela va générer une exception d'overflow, mais il est aussi possible de faire l'inverse avec le block unchecked. Ce block existe car même si c'est le mode par défaut, il est possible de parametrer tout une application en checked ou unchecked dans les parametres du compiler avec la commande /checked- ou /checked+ ou alors
+
+1. Clique droit sur un project
+2. Properties
+3. Build tab
+4. advanced button
+5. Check for arithmetic overflow/underflow
+
+## Volatile fields
+
+Il faut déjà décrire 2 concepts de programmation qui sont :
+- Program order of instruction
+- out of order execution
+
+Par defaut, on assume que le programme va executer le programe ligne par ligne. Le CPU optimise les instructions pour pouvoir remplir son pipeline en permanance et peut donc les re-arranger ou les executer en paralleles. Le faut de re-arranger les instructions s'appelles le "out of order execution", c'est la façon dont le CPU execute le code plus rapidement.
+
+Le CPU sait gérer pour qu'il n'y ait aucun probleme et que la logique du programe soit respecté. Un des problèmes qui peut survenir avec ce comportement est que le CPU assume qu'il n'y a qu'un seul thread. Lorsque plusieurs threads sont utilsiés, il peut avoir des problemes d'executions.
+
+```
+//Thread 1
+value = 42;
+complete = true;
+//thread 2
+while(!complete)
+  Console.WriteLine(value);
+```
+Dans ce contexte,  on peut avoir une différente valeur que 42 affiché car, 42 n'a pas encore été assignéé. L'idée est le resultat d'une memory operation (Read ou Write) visible aux autres threads, on parle d'opération visible. Dans notre contexte, cela signifie que le complete = true peut être visible avant le value = 42.
+
+### Memory Barriers
+Une des solutions est la memory barrier. C'est une instruction qui indique que les taches en cours reads/writes doivent être compléter avant de passer cette barriere.
+
+1. Acquire semantics - si une opération acquieres de la sméantique, elle sera visible avant la derniere la prochaine instruction
+2. Release semantics - si une opération release de la semantics, l'instruction précedente sera visible avant
+
+En C#, on peut marquer des champs avec le mot clé volatile. Lire un champ volatile, un volatile read signifie que le champ a acquis de la semantics. Cela signifie qu'il sera effectué avant n'importe quelle de ces references
+
+Lorsqu'on écrit un champ "volatile write", cela signifie qu'on "release semantics". Cela veut dire que cela va s'effectuer apres les references à cette mémoire.
+
+dans notre exemple
+```
+private volatile bool complete; // executer avant la prochaine instructions
+value = 42;
+complete = true // comme volatile, on s'assure que l'instruction précédente a été executé avant de le rendre visible

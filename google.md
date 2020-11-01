@@ -13,3 +13,7 @@ Debug : https://devblogs.microsoft.com/devops/7-ways-to-look-at-the-values-of-va
 ## hardware
 - Mémoire Volatile VS Non-volatile
 - https://www.youtube.com/playlist?list=PLH2l6uzC4UEW0s7-KewFLBC1D0l6XRfye
+- Quantum Computing
+
+## C#
+- Volatile fields dans feature (Acquires & Release semantics : https://preshing.com/20120913/acquire-and-release-semantics/)

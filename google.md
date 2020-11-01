@@ -17,3 +17,7 @@ Debug : https://devblogs.microsoft.com/devops/7-ways-to-look-at-the-values-of-va
 
 ## C#
 - Volatile fields dans feature (Acquires & Release semantics : https://preshing.com/20120913/acquire-and-release-semantics/)
+
+
+## A faire
+- Build un CPU 4-bits (google it)

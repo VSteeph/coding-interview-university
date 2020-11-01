@@ -359,3 +359,11 @@ Le premier ordinateur personnel avait 2 modes : entrée de programme et executio
 ![HobbyComputer](img/HobbyComputer.png)
 
 C'était très dur d'entrée car il fallait connaître les OpCodes et les registers wits
+
+### Software
+
+Façon de programmer plus simple (softer) que le hardware et les boutons qui étaient plus durs. L'idée est de créer en pseudo-code la logique, puis traduire la logique en instructions binaires à la main. Le programme pouvait être envoyer à l'ordinateur à ce moment la.
+
+L'idée était donc de transformer le binaire en instruction comme LOAD_A value pour load une value dans le registre A. Pour cela, les programmers ont crée des helpers programs qui était reutilisables en binaire. Ces programmes lisaient les instructions et les assembler en instructions binaires, d'ou le nom : assembleur (assembler).
+
+Les premiers QOL sont apparus avec les meta data de loop pour préciser à quel endroit devait revenir un JUMP plutôt que de donner l'adresse de l'instructions exacts. C'est juste une couche de vernis. En gros, une terme est associé à un code.

@@ -318,6 +318,8 @@ Ce type de mémoire utilise des latch aussi
 
 ## Programmes
 
+### Execution
+
 Un programme a plusieurs instructions (opcode):
 - Load A / Load B (Load une valeur de ram dans A ou B)
 - Store A (Store value in A dans un registre)
@@ -333,3 +335,27 @@ Les ordinateurs modernes ont plus d'instructions comme Jump if equal/ jump if gr
 Ils utilisent déjà plus de bits (32/64) donc une plus grande instruction length. En plus, ils utilisent des instructions à taille variables. Par exemple, si les opcodes sont de 8bits, quand le CPU voit une instruction qui n'a pas besoin de valeur supplémentaire comme Halt, il l'execute automatiquement. A l'inverse, s'il voit une instruction qui a besoin de plus de donnée, il va aller chercher la suite des informations (qui sont sauvergardés directement apres l'instruction dans la mémoire), c'est l'immediate value. Cela permet d'avoir des instructions de bits variables.
 
 Le premier processeur (INTEL 4004) avait 46 opérations, ceux actuels ont des milliers d'opérations possibles
+
+### Charger un programme
+
+Avant, pour charger un programme, il fallait agencer les cables dans le plugboard pour faire l'execution, un programme par set up. En 1920, on a permis de swap  ces plugboards pour pouvoir run plusieurs programmes dans une machines. Réaliser ces plugboards mettait beaucoup de temps à concevoir et beaucoup de temps à créer, un nouveau modele a été crée plus flexible, plus rapide : Memory Electronic.
+
+Les programmes ont été entré dans des mémoires et chaque mémoire avait un programme et potentiellement toutes les donnnées nécessaires. Uniformiser les données du programmes dans une simple memoire partagé s'appelle la Neumann architecture.
+La mémoire était interchangeable et le programme s'executait comme l'intel 4004 (avec la RAM qui était une mémoire avec un programme dedans).
+L'architecture Neumann est à la base des ordinateurs modernes (toujours actuel).
+
+Pour écrire les données dans la mémoire, les ordinateurs avaient un reader de punch cards (8 bits), chaque ligne était une instruction qui se chargeait dans la mémoire. Le reader de punchcard pouvait aussi lire plusieurs punchards et les stocker dans la mémoire une par une en un seul block.
+
+Un ensemble de Punch-card créait un programme. Le plus gros programme avait 62 500 punch cards, ce qui corresponnd à 5 mega bytes de donnée. Un ordinateur avait aussi un punching card pour pouvoir output les données dans un format de punch cards, ce qui permet d'analyser les données ou de s'en servir pour un autre programme.
+
+Enfin l'autre façon de programmer et contrôler un ordinateur est le "panel programming" qui au lieu d'avoir un mur de cable à brancher ou à débrancher pour activer des fonctions, cela pouvait aussi être fait avec des boutons et des lumieres pour symboliser ce qui était allumé.
+
+![loadProgram](img/loadProgram.png)
+
+Il était donc possible d'entrer un programe juste avec les interupteurs/boutons (comme une punchcard). Ils étaient surtout utiliss en loisir car les périphériques punch card readers étaient cher
+
+Le premier ordinateur personnel avait 2 modes : entrée de programme et execution. Il fallait entrer les instructions avec les interrupteurs par instructions et une fois qu'on avait fini, on activait le bouton "Switch Back" pour revenir à l'instructions 0 et tout s'executait, et lse lumieres s'écrivait
+
+![HobbyComputer](img/HobbyComputer.png)
+
+C'était très dur d'entrée car il fallait connaître les OpCodes et les registers wits

@@ -367,3 +367,7 @@ Façon de programmer plus simple (softer) que le hardware et les boutons qui ét
 L'idée était donc de transformer le binaire en instruction comme LOAD_A value pour load une value dans le registre A. Pour cela, les programmers ont crée des helpers programs qui était reutilisables en binaire. Ces programmes lisaient les instructions et les assembler en instructions binaires, d'ou le nom : assembleur (assembler).
 
 Les premiers QOL sont apparus avec les meta data de loop pour préciser à quel endroit devait revenir un JUMP plutôt que de donner l'adresse de l'instructions exacts. C'est juste une couche de vernis. En gros, une terme est associé à un code.
+
+Les langages plus haut niveau peuvent nécessiter plusieurs instructions. C'est pour cela que les compilers ont été crée. Cela a permis de supprimer la gestion des registres, des adresses.
+
+De cette façon, on a diminué le temps de programmation en contrepartie de légerement augmenter le temps de computing. C'est le début de l'uniformisation des ordinateurs avec chaque ordinateur possédant son propre compiler mais tous peuvent run du COBOL.

@@ -12,6 +12,7 @@
         - [Memory & Unsafe](Programming-Language/Csharp/memory.md)
 - Informatique
     - [definition](Informatique/definition.md)
+    - [Algo](Informatique/algorithm.md)
 - Computer
     - [Fonctionnement d'un ordinateur](Computer/computer-behavior.md.md)
     - [Pieces Hardware](Computer/hardware-pieces.md)

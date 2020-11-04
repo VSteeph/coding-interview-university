@@ -39,3 +39,6 @@ https://en.wikipedia.org/wiki/Stack-oriented_programming
 
 ## PDB File
 Un fichier PDB contient des informations pour le debugger. Cela signifie Program Data Base. C'est un repository persistant qui garde les informations nécessaires pour que le programme fonctionne en debug mode comme les breakpoint
+
+## CRUD
+Create Delete Update Delete fonctionnality

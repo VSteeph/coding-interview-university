@@ -18,3 +18,4 @@
     - [Pieces Hardware](Computer/hardware-pieces.md)
 - Microsft EcoSysteme
     -  [Environement](Microsft/environement.md)
+    -  [NetCore](Microsft/NetCore.md)

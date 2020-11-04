@@ -55,3 +55,40 @@ Il n'y a plus certains fichiers comme le project json.
 Ce sont les informations nécessaires pour Run le projet, il est possible d'avoir plusieurs profils (c'est le cas par défaut).
 
 Le premier profil est IIS Express (localHost) et met l'environnement variables à developpement.
+
+Cela peut aussi être changer dans les proprietés du projet (debug avec le profil, les environment variables, etc)
+
+Tous les profils sont aussi présent dans le Run (Config manager Aka debug, Release, etc)
+
+#### Dossier wwwroot
+
+Nouvel element avec .NET CORe, c'est l'emplacement pour tous les fichiers statics (img, css, js, lib). Cela sera le dossier root du site. Il est là pour séparer le code et les fichiers statics.
+
+#### Dossier Pages
+Cela permet d'avoir toutes les pages que l'on veut pour le site. Il y a aussi un dossier Shared où les fichiers commencent par un underscore comme _layout.cshtml. Cela signifie que se sont des vues partials. C'est comme des user components, ça veut dire que l'on peut les ré-utiliser plusieurs fois à plusieurs endroits.
+
+##### Shared :
+_Layout est le default layout (Master Page en XAML) pour l'application avec un header et un footer.
+
+_ValidationScriptsPartials qui permet d'include les scripts de validations quand on veut intégrer le JS sur certaines pages.
+
+##### Reste
+_ViewImports qui permet de définir les tags helpers (custom ou non) à un niveau global  
+```
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+```
+
+_ViewStart.cshtml permet de de définir la MasterPage de l'application.
+
+Enfin, on a l'index, Error & Privacy pages (.cshtml). Cela permet de donner le HTML/CSS de la page, elles integrent (en expandant) la page index.cshtml.cs (lec ode) qui sont reliés par le model Name.
+
+### Routing In Razor
+Comment match les URLs avec les ressources du serveur pour process les requêtes. La solution la plus directe est de map les URLs avec l'emplacement des fichiers (emplacement physiques sur le disque) (solution choisie par .NET core)
+
+Il y a néanmoins plusieurs regles pour ça :
+- Routing se fait par rapport à l'adresse physiqeu du fichiers
+- Razor Pages a besoin d'un root folder (Cela peut être configurer si besoin dans la startup class). Par défaut, le root folder est Pages.
+- L'URL ne doit pas inclure l'extension du fichier (index.cshtml => index)
+- Index.cshtml est le document par defaut, c'est à dire que s'il manque un fichier, cela rediriger vers le index.cshtml du dossier
+
+![indexRedirect](IndexRedirect.png)

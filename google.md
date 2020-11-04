@@ -22,3 +22,5 @@ Debug : https://devblogs.microsoft.com/devops/7-ways-to-look-at-the-values-of-va
 - Build un CPU 4-bits (google it)
 - Finir doc targets
 - Trier Definition informatique et finir
+- Nugget Package Insight (de userware)
+- Run Profils (Userware)

@@ -4,6 +4,8 @@
 
 Cela ne se mesure déjà pas par rapport à la vitesse en temps car tous les ordinateurs et les utilisations sont variés. Un algorithm se mesure d'une façon uniforme : Big O notation. Cela mesure la complexité Asymptotique d'un programe. C'est à dire déterminer l'augmentation de la vitesse de l'execution d'un programme quand la taille de l'input augmente vers l'infini (augmentation Asymptotique).
 
+En gros, à quel point un algorithm va scale avec de la donnée.
+
 Par exemple, trier un array d'une taille de 10, 1000, 1 millions, quel est l'évolution du runtime du programe.
 
 Compter le nombre de lettres dans une string :

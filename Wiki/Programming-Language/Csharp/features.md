@@ -264,3 +264,323 @@ bool isSuspended = (privileges & ForumPrivileges.Suspended) == forum.Suspended
 ```
 
 ## Reflection
+
+C'est le fait d'inspecter des elements executables du code. Il est possible de savoir les types, méthodes, properties, variables d'une assembly même quand lep rogramme est cours. La reflection est le fait d'analyser la structure d'un code.
+
+(Outil : Mono.Cecil pour manipuler des assembly, ILSpy pour les regarder)
+
+## IDisposable interface
+Par défaut, le GC s'occupe de libérer la mémoire. Parfois, les taches nécessite d'utiliser des ressources non-gerées par le GC. Par exemple, quand on ouvre un fichier, ce qui nécessite de close le stream (writer)
+
+Les types qui utilisent de la mémoire "independante" vont implémenter une interface IDisposable qui a une method Dispose qui permet de nettoyer toute la mémoire que l'object utilise. La method close l'utilise (mais en cas d'exception, il est possible que le Dispose ne s'execute pas).
+
+C# a mis en place une façon plus simple de faire ça, c'est le using statement
+
+```
+using (FileStream fileStream = file.OpenWrite("fileName"))
+{
+  //Do stuff
+}
+```
+
+A la fin du block, la method dispose sera appelé même s'il y a une exception lors de l'execution du block, ce qui rend le processus plus safe.
+
+## Preprocessor Directives
+Ce sont des instructions pour le compiler dans le code, cela commence par #.
+
+- #warning & #error permet de throw un warning ou une erreur lors de la compilation.
+- #region & #endregion sont la pour regrouper les méthodes par thématiques (block dans VIsual Studio)
+- #if, #else #elif, #endif sont des if statements qui sont basés sur les symbols (défini dans le CsProj), cela va permettre d'executer un code ou un autre selon la situation. (&& et || fonctionnent dans la condition)
+- #define et #undef permettent de set ou unset des symboles
+
+```
+#define Debug
+Console.WriteLine("Debug Has been set");
+
+#if Debug
+  Console.WriteLine("Running in Debug Mode");
+#else
+  Console.WriteLine("Running in release");
+#release
+```
+
+## Nullable Types
+Les variables de type value (à l'opposée des ref) ne peuvent pas être null. Cela peut être utile dans certain cas (comme un bool : Vrai, Faux, Uncertain)
+
+Cela peut s'écrire de 2 façons
+```
+Nulaable<bool> isComingToTheWedding = true;
+isComingToTheWedding = null;
+
+// version simplifié
+bool? isComingToTheWedding = true;
+
+// Checking
+if(isComingToTheWedding.HasValue)
+  {
+    bool actualValue = isComingToTheWedding.Value;
+  }
+```
+
+Il y a aussi un moyen plus simple avec le null-coalescing operator "??"
+```
+bool actualValue = isComingToTheWedding ?? false;
+```
+
+A noter qu'un Nullable<T> ne peut pas être null. L'écriture "Null" se fait grâce au compiler.
+
+## Null Propagation Operator
+C# 6.0 a introduit les null propagation, succint null checking or the null propagator operator qui permet de gérer le null checking. Beaucoup d'éléments peuvent être null et devoir check pour chaque element est assez repétitif.
+
+Imaginons ce genre de scene :
+```
+private string GetTopPlayerName() {
+  if(highscoreManager == null) return null;
+  if(highscoreManager.Scores == null) return null;
+  if(highscoreManager.Scores[0] == null) return null;
+  if(highscoreManager.Scores[0].Player == null) return null;
+
+  return highscoreManager.Scores[0].Player;
+  }
+}
+```
+
+De la même manière que le nullable type, on peut utiliser ? pour ce qui peut être null :
+- Conditional Member access Operator ?.
+- Conditional Indexer access Operator ?[]
+
+Cela se traduit par
+```
+return highscoreManager?.Scores?[0]?.Player?.Name;
+```
+
+Si le moindre élément est null, cela va return null et arrêter l'expression. C'est pour cela qu'il est important de faire gaffe au type de variable qui prend la valeur, car si c'est un value type, il ne peut pas être null à moins de l'avoir transformer en Nullable ou utiliser le Null Coalescing operator ??
+
+```
+int? score = highscoreManager?.Scores?[0]?.Score;
+int score = highscoreManager?.Scores?[0].Score ?? 0;
+```
+
+Cela marche aussi avec les délégates avec le ?.Invoke qui permet d'avoir le même comportement mais pour les methodes.
+
+## Transformer un programme en commande
+Cela peut se produire grâce au string[] args dans Main, Exemple
+
+```
+static void Main(string[] args) {
+  int a = Convert.ToInt32(args[0]);
+  int b = Convert.ToInt32(args[1]);
+  Console.WriteLine(a + b);
+}
+```
+
+## Value Conversion
+Il est possible de cast des variables sur un autre type (implicit int vers double) ou explicite. Il est aussi possible d'instaurer des conversions entre des types custom.
+
+```
+public class MagicNumber
+{
+  public int Number { get; set;}
+  public bool IsMagic {get;set;}
+
+  // Override de MagicNumber à Int
+  public int ToInt()
+  {
+    return Number
+  }
+
+  // override de Int à Magic Number (static)
+  public static MagicNumber FromInt(int number)
+  {
+    return new MagicNumber{Number = number, IsMagic = false};
+  }
+
+  // Implicit conversion (static  & public forcé)
+  public static implicit operator MagicNumber(int value)
+  {
+    return new MagicNumber() {Number = vbalue, IsMagic = false};
+  }
+}
+```
+
+On peut déterminer implicit ou explicit (les 2 mots clés existent), on a choisi implicit ce qui permet de faire ça
+```
+int aNumber = 3;
+MagicNumber magicNumber = aNumber;
+```
+
+La version explicite ressemblerait à ça
+```
+static public explicit operator int(MagicNumber magicNumber)
+{
+  return magicNumber.Number;
+}
+
+MagicNumber magicNumber = new MagicNumber() { Number = 3, IsMagic = true};
+int aNumber = (int) magicNumber;
+```
+
+## Goto keyword
+Une des rares utilisations de goto est pour sortir de nested loops et cela prendrait ce genre de forme car cela permet de couper court à une série de loops
+```
+while(x < 100)
+{
+  while(y < 100)
+  {
+    while(z <100)
+    {
+      if(thing==otherThing)
+      {
+        getOtherThing;
+        goto Found;
+      }
+    }
+  }
+}
+goto End;
+Found:
+  Console.WriteLine("Thing is OtherThing");
+
+End:
+  Console.WriteLine("thing is not OtherThing");
+```
+
+De preference, c'est mieux de pas les utiliser ou de se limiter à ce rare cas et ne pas les multiplier.
+
+## Generic Covariance and Contravariance
+
+Lors de l'héritage, on peut mettre la classe dérivé en tant que classe parent. Cela s'explique car le dervié est aussi la version de base. Un carré est un rectangle.
+```
+public class GameObject
+{
+}
+
+public class Ship : GameObject
+{
+}
+
+GameObject newObject = new Ship();
+```
+
+Il est important de noter que cela a des limites, par exemple dans les list. Exemple :
+```
+List<GameObject> objects = new List<Ship>();
+objects.Add(new Asteroid());
+```
+
+Cela poserait des problemes car on aurait une liste de Ship avec des asteroides.
+
+En C#, on contrôle le transfert de hierarchie vers un type generic qui l'utilise. Cette regle qui contrôle si et comment la relation est appliqué s'appelle la variance
+
+Pour définir un generic type, on peut mettre plusieurs parametres
+```
+public interface IGeneric<T1,T2>
+```
+
+Le premier parametre est l'invariance, et c'est par défaut. Cela signifie que l'héritage est completement ignoré.
+
+Le second est la covariance, cela signifie que l'héritage est conservé.
+```
+Covariant<GameObject> thing = new Covariant<Ship>();
+```
+Cele sert uniquement à servir de return values pour des méthodes. Cela ne peut pas servir d'input car c'est prône à l'erreur. C'est pour cela que le .Add d'une liste ne fonctionne pas, car cela prend un input.
+
+Par contre, IEnumerable<T> est covariant qui permet d'iterer sur une collection.
+
+La derniere option est la Contravariance, elle invere l'héritage.
+```
+Contravariant<Ship> thing = new Contravariant<GameObject>();
+```
+
+Plus d'information sur C# Player guide p290
+
+## Advanced NameSpaces
+Il est possible d'avoir des situations amibuges, souvent liés à une mauvaise appelation. Par exemple, avoir un NameSpace System.Console et une classe Systeme qui a une methode console.
+
+Lorsque c'est pas possible à éviter (Librairies externes ou autres), il est possible de créer des global keywoard avec l'operator (::) comme :
+```
+global::System.Console.WriteLine("thingy");
+```
+
+le global:: signifie que le compiler doit chercher des namespaces ou types names en haut du systeme.
+
+Il est aussi possible de créer des alias sur des DLL. Quand il est nécessaire d'avoir 2 versions différentes d'une DLL (à éviter aussi)
+
+1. Solution Explorer > Project > References Elements > Assembly à donner alias
+2. Clique droit > Proprietés
+3. Changez le champ Aliases de Global à autre chose.
+
+Pour utiliser cet alias, il faut le préciser en haut du fichier (avant les directives et les namespaces)
+```
+extern alias MyAlias;
+```
+
+Suite à cela, on peut acceder aux éléments comme Cela
+```
+MyAlias::NameSpace.class
+```
+
+## Checked & Unchecked Context
+
+```
+int x = int.MaxValue;
+x++;
+Console.WriteLine(x);
+```
+
+Par défaut, cela est supposé créer une erreur overflow. La plupart des scénarios ne créeront pas d'overflow et vont simplement transformer la variable dans un type de data plus grand (long au lieu de int par exemple). Dans certain cas, ils vont juste être wrap around (donc passer de max au min), ce qui peut poser de gros problemes dans certain scas.
+
+Cela se produit car C# execute son code dans un contexte unchecked. Cela signifie que le runtime ne se soucie pas des overflow, il ne les vérifie pas. Il permet aux bits d'être reinterpretés et de trunc la valeur.
+
+Il est possible de forcer un contexte check avec le block checked
+```
+int x = int.MaxValue
+checked {
+  x++;
+}
+Console.WriteLine(x);
+```
+
+Cela va générer une exception d'overflow, mais il est aussi possible de faire l'inverse avec le block unchecked. Ce block existe car même si c'est le mode par défaut, il est possible de parametrer tout une application en checked ou unchecked dans les parametres du compiler avec la commande /checked- ou /checked+ ou alors
+
+1. Clique droit sur un project
+2. Properties
+3. Build tab
+4. advanced button
+5. Check for arithmetic overflow/underflow
+
+## Volatile fields
+
+Il faut déjà décrire 2 concepts de programmation qui sont :
+- Program order of instruction
+- out of order execution
+
+Par defaut, on assume que le programme va executer le programe ligne par ligne. Le CPU optimise les instructions pour pouvoir remplir son pipeline en permanance et peut donc les re-arranger ou les executer en paralleles. Le faut de re-arranger les instructions s'appelles le "out of order execution", c'est la façon dont le CPU execute le code plus rapidement.
+
+Le CPU sait gérer pour qu'il n'y ait aucun probleme et que la logique du programe soit respecté. Un des problèmes qui peut survenir avec ce comportement est que le CPU assume qu'il n'y a qu'un seul thread. Lorsque plusieurs threads sont utilsiés, il peut avoir des problemes d'executions.
+
+```
+//Thread 1
+value = 42;
+complete = true;
+//thread 2
+while(!complete)
+  Console.WriteLine(value);
+```
+Dans ce contexte,  on peut avoir une différente valeur que 42 affiché car, 42 n'a pas encore été assignéé. L'idée est le resultat d'une memory operation (Read ou Write) visible aux autres threads, on parle d'opération visible. Dans notre contexte, cela signifie que le complete = true peut être visible avant le value = 42.
+
+### Memory Barriers
+Une des solutions est la memory barrier. C'est une instruction qui indique que les taches en cours reads/writes doivent être compléter avant de passer cette barriere.
+
+1. Acquire semantics - si une opération acquieres de la sméantique, elle sera visible avant la derniere la prochaine instruction
+2. Release semantics - si une opération release de la semantics, l'instruction précedente sera visible avant
+
+En C#, on peut marquer des champs avec le mot clé volatile. Lire un champ volatile, un volatile read signifie que le champ a acquis de la semantics. Cela signifie qu'il sera effectué avant n'importe quelle de ces references
+
+Lorsqu'on écrit un champ "volatile write", cela signifie qu'on "release semantics". Cela veut dire que cela va s'effectuer apres les references à cette mémoire.
+
+dans notre exemple
+```
+private volatile bool complete; // executer avant la prochaine instructions
+value = 42;
+complete = true // comme volatile, on s'assure que l'instruction précédente a été executé avant de le rendre visible

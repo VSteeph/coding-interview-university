@@ -2,8 +2,7 @@ Assembly
 Ildasm
 Preprocessor
 StatThreadAttribute
-.NEt vs .Net Core
-metaProgramming
+metaProgramming (exemple concret)
 Micro-architecture
 Stack-oriented
 
@@ -21,3 +20,5 @@ Debug : https://devblogs.microsoft.com/devops/7-ways-to-look-at-the-values-of-va
 
 ## A faire
 - Build un CPU 4-bits (google it)
+- Finir doc targets
+- Trier Definition informatique et finir

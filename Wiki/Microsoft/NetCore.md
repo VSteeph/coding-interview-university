@@ -1,4 +1,40 @@
-# .NET CORE
+# .NET CORE general
+
+## Presentation 3.0
+Platform pour créer toutes sortes d'applications :
+- desktop (Winforms, WPF, enntity framework 6)
+- Webform / CLoud
+- Mobile
+- Gaming
+- IOT
+- AI (Library ML.net)
+
+Il est possible de créer des singles .exe
+
+### desktop improvements
+Overall :
+- Better performancne
+- API & Core runtime improvements (30% improvement depuis .NET framework)
+- Deployment flexibility (.NET core peut même être integré à l'exe pour faciliter le déployment)
+
+UI Framework
+- XAML islands - informs & WPF can host WPF
+- Better support for high DPI (4k monitor)
+
+Latest technologie :
+- C# 8/0 (Ranges pour envoyer des subset de l'array, Nullable reference types, async streams,...)
+- .NET standard 2.1  
+- ASP.NET Core
+  - gRPC (Better performance based RPC services, standard implmentation donc cross langage)
+  - Worker services (starting point pour les long process comme Window Server ou linnux daemon)
+  - Web API + identity (security & authentication)
+  - Razor Componant
+    - Créer des clients UI (remplace Angular, React, Vue) et garder la stabilité de .Net (Web assembly qui permet de convertir .NET en IL native browser)
+    - Fonctionne sur tous les browsers
+    - Web Assembly permet les native peformances, 0 plugins ou code transpilation
+
+
+# ASP .NET CORE
 
 ## Présentation
 
@@ -50,7 +86,7 @@ il a un peu changé avec .NET core. La façon principal d'ajouter d'est référe
 
 Il n'y a plus certains fichiers comme le project json.
 
-#### LaunchSettings.json
+#### LaunchSettings.json ou appSettings
 
 Ce sont les informations nécessaires pour Run le projet, il est possible d'avoir plusieurs profils (c'est le cas par défaut).
 
@@ -58,7 +94,9 @@ Le premier profil est IIS Express (localHost) et met l'environnement variables �
 
 Cela peut aussi être changer dans les proprietés du projet (debug avec le profil, les environment variables, etc)
 
-Tous les profils sont aussi présent dans le Run (Config manager Aka debug, Release, etc)
+Tous les profils sont aussi présent dans le Run (Config manager Aka debug, Release, etc).
+
+Les profils peuvent aussi être importés d'Azure (facile à modifier json)
 
 #### Dossier wwwroot
 
@@ -68,7 +106,7 @@ Nouvel element avec .NET CORe, c'est l'emplacement pour tous les fichiers static
 Cela permet d'avoir toutes les pages que l'on veut pour le site. Il y a aussi un dossier Shared où les fichiers commencent par un underscore comme _layout.cshtml. Cela signifie que se sont des vues partials. C'est comme des user components, ça veut dire que l'on peut les ré-utiliser plusieurs fois à plusieurs endroits.
 
 ##### Shared :
-_Layout est le default layout (Master Page en XAML) pour l'application avec un header et un footer.
+_Layout est le default layout (Master Page en XAML) pour l'application avec un header et un footer. Il est aussi plus customisable avec la possibilité de mettre des profils Include=dev ou Exclude=dev par exemple
 
 _ValidationScriptsPartials qui permet d'include les scripts de validations quand on veut intégrer le JS sur certaines pages.
 

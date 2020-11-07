@@ -114,7 +114,10 @@ Comme expliqué précédemment, la librairie standard permet d'inclure beaucoup 
 
 Plus on utilise une version haute, plus on a de types utilisables, mais plus on prend une version basse, plus le code peut être distribuer sans soucis de compatibiltié.
 
-## .NET Framework
+## App models
+Tres vaste :
+- WPF (GUi) ou UWP (Universel GUI mais moins puissant)
+- ASP.NET ou ASP.NET Core pour les webs apps
 
 
 

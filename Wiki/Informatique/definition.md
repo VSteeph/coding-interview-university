@@ -37,6 +37,11 @@ https://en.wikipedia.org/wiki/Microarchitecture
 ## Stack-oriented
 https://en.wikipedia.org/wiki/Stack-oriented_programming
 
+# Code
+
+## Interoperabilité
+C'est la capacité d'un produit ou un systeme à fonctionner avec d'autres produits ou systeme dans le présent ou dans le future. Cela peut aussi être 2 langages qui interagissent ensemble dans un même systeme.
+
 ## PDB File
 Un fichier PDB contient des informations pour le debugger. Cela signifie Program Data Base. C'est un repository persistant qui garde les informations nécessaires pour que le programme fonctionne en debug mode comme les breakpoint
 

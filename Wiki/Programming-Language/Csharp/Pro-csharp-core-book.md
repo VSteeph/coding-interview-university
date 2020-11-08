@@ -93,3 +93,43 @@ Ils ont essentiel à l'architecture d'event de  .NET Core
 
 #### CTS Type members
 Echelle plus générique
+
+### CLS
+Il y a plusieures implémentations des instructions, ce qui n'est pas important pour le CLR. Les langages ont leur propre spécificité. Le CLS est la pour décrire en détails tous les types, features qui doivent être supportés. Les elements doivent respecté le CLS pour être build en .NET Core sans probleme.
+
+Le compiler peut indiquer la CLS compliance.
+
+### NameSpaces important
+
+- System (math, garbage collection, environment variable, random, etc)
+- System.Collections & Collections.Generic (Collection & interface)
+- System.Data / Data.Common / System.Data.SqlClient (DataBase)
+- System.IO / IO.Compression / IO.Ports (File, compression, data manipulation)
+- System.Reflection / Reflection.Emit (reflection & dynamic)
+- System.Runtime.INteropServices (interact with unmanaged code)
+- System.Drawing / System.Windows.Forms (Desktop App)
+- System.Windows / Windows.controls / Windows.Shapes (Root pour WPF)
+- System.Windows.FormsSystem.Drawing (root pour WindowsForm)
+- System.Linq / Linq.Expression (LINQ API)
+- System.AspNetCore (ASP Net.core & ReSTful services)
+- System.Threading / Threading.Task (multithread)
+- System.Security (permission, crypto)
+- System.Xml (xml data)
+
+Les namespaces sont justes une organisations mais la classe Console dans systeme n'existe pas vraiment, il y a juste une classe qui s'appelle Systeme.Console.
+
+.NET Core n'utilise plus le GAC (Global Assembly Cache) pour avoir une installation commune des librairies du framework.
+
+A la place, chaque version de .NET Core a son propre dossier d'installations.
+
+## Chapter 2 : Building C# App
+
+### IDE
+- Visual Studio (Community similar à professional, différence dans la licence)
+- visual Studio Code qui est plus léger et qui est surtout la pour faire du ASP.NET Core car il ne peut pas build de Windows application (WinForms ou WPF) mais il peut run sur linux et macOS.
+
+# CORE C# programming
+
+## Chapter 3 : Core C# Programming Constructs
+
+# Programming with .NET Core assemblies

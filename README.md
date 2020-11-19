@@ -23,6 +23,9 @@ Secondary language will be :
 - C++
 - Javascript
 
+Test Unit :
+
+
 Move everything from google Drive & Slite to github, alternate between exercices, reading and learning
 
 Learning :

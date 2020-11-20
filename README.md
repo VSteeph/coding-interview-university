@@ -18,9 +18,10 @@ Not updated
 Main language will be :
 - C#
 - Python
+- C++
 
 Secondary language will be :
-- C++
+- C ?
 - Javascript
 
 Test Unit :

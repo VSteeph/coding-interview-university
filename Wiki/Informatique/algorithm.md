@@ -27,3 +27,38 @@ Ces types sont utilisés pour 2 façons : upper & lower bounds qui permettent de
 Le plus de temps : Big O => O( log n) => Binary search
 Le moins de temps : Omega => Ω(1) => Binary Search
 Quand les 2 cas sont équivalent : Theta => θ(1) => 2eme cas pour compter le nombre de caracteres dans une string
+
+## Types d'Algorithmes
+La force d'un algorithme dépend des besoins de l'utilisateurs, cela peut être la vitesse, la mémoire, la rapidité de coder. Il y a plusieurs types d'algorithm pour le même problème en fonction des besoins du programmer
+
+### Sorting
+Prenons comme un exemple, le fait de trier une liste de prix
+
+#### Selection Sorting
+C'est le cas où on test tous les éléments entre eux pour avoir le plus petit chiffre, il est placé au début de l'array puis le plus petit des éléments restants, en augmentant l'index toujours de 1. C'est très rapide à côté mais peu performant. O(n!)
+
+#### Merge Sort
+L'idée est de split l'array en élement indivisible (1 element) puis de regrouper par 2 par 4 en les sortant à ce moment la. Cela donne O(n Log n) qui est beaucoup plus intéressant.
+
+#### Bubble Sorting
+
+
+#### Spaghetti Sorting
+
+### Graph Search
+Un graph est un réseau de point connecté par des lignes (un peu comme une carte avec des villes connectés par des routes). Chaque ligne a un coût ou un poids.
+
+#### Brute Force
+Calculer toutes les possibilités de tous les chemins possibles et prendre le plus petit. O(n!)
+
+#### Classic version (dijkstra's algorithm)
+On commence au début (0), il évalue le coût de chaque node pour s'y rendre à partir du point A. cela commence par le point avec la value la plus faible et on vérifie toutes les lignes pour avoir la prochaine valeur la plus petite.
+
+Ce qui donne :
+- N(0) = 0
+- N(1) = 0 + trajet
+- N(2) = 0 + trajet 1 + trajet 2
+
+et tous les chemins qui ont un poids plus fort pour aller dans une ville sont abandonnées. O(n²)
+
+Il a été amélioré par la suite pour arriver à 0(n log n + 1)

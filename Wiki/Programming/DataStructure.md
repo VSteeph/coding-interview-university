@@ -1,4 +1,7 @@
 # Data Structured
+Arrays, List ou structures selon les langages. Il y a des spécificités selon les types et les langages. Ce sont à la base de beaucoup chose comme les strings, le dernier character permet de stop la string.
+
+Il est aussi possbile de créer des multidimensional Arrays, c'est à dire une grille (Colonne + ligne), on appelle ça une matrix (grosso modo, un array d'array). On peut avoir des matrices d'autant de dimensions, chaque dimension étant uen couche d'array.
 
 ## Arrays
 Un array est un chunk continu de mémoire, qui est divisible en élément de même tailles qui sont referencés par des entiers continus (1 based ou 0 based index, c'est à dire qui commence 0 ou à 1, en général 0)
@@ -52,3 +55,26 @@ Pour enlever le premier ou ajouter le premier, cela nécessite de tout restructu
 | Beginning | O(n)   | O(n)   |
 | Middle    | O(n) ? | O(n) ? |
 | End       | O(1)   | O(1)   |
+
+
+## Struct
+Quand on a besoin de stocker plusieurs types de variables, on peut utiliser des trucs
+
+## LinkedList
+Une linkedList est constitué de Node qui est une struct ayant uen variable et un Pointer qui dirige vers la node suivant, cela permet d'avoir une liste dynamique.
+
+Elles peuvent être circulaires, lorsque la derniere pointe sur la première ou elle peut être terminer en mettant le pointer à 0. Elles sont beaucoup plus simples à modifier, re-organiser. Elles consoment plus de mémoire en échange).
+
+Beaucoup de data structures sont construites sur les LinkedList comme les queues et les stacks.
+
+### Queues
+First In, First Out. (queue in,dequeueing)
+
+### Stacks
+Last In, First Out. (Pushed in, poped out)
+
+### trees
+Cela fonctionne comme une LinkedList mais avec 3 pointers pour avoir 2 variables pour créer un arbre (Binary Tree). Il est possible d'avoir plus que 2 variables par nodes en modifiant le nombre de pointer (changeant la struct)
+
+### Graph Data
+Ce sont des nodes qui peuvent se connecter entre eux, il n'y a pas de lien de parenté.

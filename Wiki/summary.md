@@ -10,9 +10,9 @@
         - [Features](Programming-Language/Csharp/features.md)
         - [Threading](Programming-Language/Csharp/threading.md)
         - [Memory & Unsafe](Programming-Language/Csharp/memory.md)
-- Informatique
-    - [definition](Informatique/definition.md)
-    - [Algo](Informatique/algorithm.md)
+- Programming
+    - [definition](definition/definition.md)
+    - [Algo](definition/algorithm.md)
 - Computer
     - [Fonctionnement d'un ordinateur](Computer/computer-behavior.md.md)
     - [Pieces Hardware](Computer/hardware-pieces.md)

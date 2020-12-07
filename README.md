@@ -17,7 +17,11 @@ Not updated
 ## General Planning
 Main language will be :
 - C#
-- C++
+- C => C++ (si besoin)
+
+Secondary :
+- Javascript
+- Python (si besoin)
 
 Test Unit :
 
